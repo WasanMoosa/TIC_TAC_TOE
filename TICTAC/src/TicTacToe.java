@@ -4,14 +4,6 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
-
-
-	/**
-	 * @param args
-	 */
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		Scanner sc= new Scanner(System.in);
 
@@ -118,7 +110,6 @@ public class TicTacToe {
 
 
 	}
-
 
 }
 
