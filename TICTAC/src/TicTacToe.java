@@ -4,11 +4,14 @@ public class TicTacToe {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		Character[] symbol = new Character[2];
+
+		char[] symbol = new char[2];
 		char mov1 = '0';
 		char mov2 = '0';
-		boolean draw = false;
-		char[] movepos = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+		boolean draw = true;
+		char[] movepos = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		boolean check = false; // Check if the position is already taken
+
 
 		System.out.println("Start playing TIC TAC TOE");
 
@@ -25,6 +28,7 @@ public class TicTacToe {
 		for (int count = 0; count < 10; count++) {
 
 			//Print out box
+
 			int i = 0;
 			for (; i < 3; i++) {
 				System.out.print(" " + movepos[i] + " |");
@@ -42,6 +46,7 @@ public class TicTacToe {
 				System.out.print(" " + movepos[i] + " |");
 			}
 			// Win conditions
+
 			if (movepos[0] == movepos[1] && movepos[0] == movepos[2] || movepos[0] == movepos[3] && movepos[3] == movepos[6] ||
 					movepos[1] == movepos[4] && movepos[1] == movepos[7] || movepos[2] == movepos[5] && movepos[5] == movepos[8] ||
 					movepos[3] == movepos[4] && movepos[4] == movepos[5] || movepos[6] == movepos[7] && movepos[7] == movepos[8] ||
@@ -50,10 +55,14 @@ public class TicTacToe {
 				System.out.print("\n");
 				System.out.println("Well done");
 				draw = true;
+
 			}
 			System.out.println("\n");
 			System.out.println("Player 1 Symbol: " + symbol[0]);
 			System.out.println("Player 2 Symbol: " + symbol[1]);
+
+
+			check = false;
 
 
 			if (count != 9) {
@@ -61,7 +70,7 @@ public class TicTacToe {
 				if (count % 2 == 0) {
 					System.out.print("Player 1, Make a move, Enter position: ");
 					mov1 = sc.next().charAt(0);
-					mov1 = checkInput(mov1, movepos, 1);
+
 
 				}
 
@@ -71,33 +80,47 @@ public class TicTacToe {
 
 					mov2 = sc.next().charAt(0);
 
-					mov2 = checkInput(mov2, movepos, 2);
 
-					// Change the integer of array into symbol
-					for (int r = 0; r < 9; r++) {
-
-						if (count % 2 == 0) {
-							if (mov1 == movepos[r]) {
-								movepos[r] = symbol[0];
+					while (check == false) {
+						for (int d = 0; d < 9; d++) {
+							if (mov2 == movepos[d]) {
+								check = true;
+								break;
 							}
 						}
-
-
-						if (count % 2 != 0) {
-
-							if (mov2 == movepos[r]) {
-								movepos[r] = symbol[1];
-							}
-
+						if (check == false) {
+							System.out.print("Player 2, Invalid input, re-enter position:");
+							mov2 = sc.next().charAt(0);
 						}
+
 					}
 				}
 
-				if (count == 9 && draw == false) {
-					System.out.println("It is draw");
+				// Change the integer of array into symbol
+				for (int r = 0; r < 9; r++) {
+
+					//
+					if (count % 2 == 0) {
+						if (mov1 == movepos[r]) {
+							movepos[r] = symbol[0];
+						}
+					}
+
+					if (count % 2 != 0) {
+
+						if (mov2 == movepos[r]) {
+							movepos[r] = symbol[1];
+						}
+
+					}
 				}
 
 			}
+
+			if (count == 9 && draw ==true) {
+				System.out.println("It is draw");
+			}
+
 			System.out.print("The End");
 
 
@@ -134,3 +157,4 @@ public class TicTacToe {
 		return mov;
 	}
 }
+
