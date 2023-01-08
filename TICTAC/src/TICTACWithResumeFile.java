@@ -1,4 +1,7 @@
-
+/**
+ * This is a TEC TAC TOE game with file used to resume the game 
+ * 
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -9,11 +12,12 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class TICTACWithResumeFile {
-
 	static Scanner sc = new Scanner(System.in);
 	static int place[] = new int[2];
 	static boolean check = true;
-
+	/**
+	 * This is the main
+	 */
 	public static void main(String[] args) {
 		int index1 = 0;
 		int index2 = 0;
@@ -24,7 +28,7 @@ public class TICTACWithResumeFile {
 		System.out.println("Start playing TIC TAC TOE");
 		shownBox(position);
 		System.out.println("\n");
-		int q = 0;
+		int playerSaveState = 0;
 		int count = 0;
 		int playerTurn = 0;
 		// reload the file if exist
@@ -73,14 +77,14 @@ public class TICTACWithResumeFile {
 		for (; count < 5 && !exit && !win; count++) {
 
 			// player turn
-			for (q = 0; q < 2 && !win && !exit; q++) {
+			for (playerSaveState = 0; playerSaveState < 2 && !win && !exit; playerSaveState++) {
 
 				if (continueBoolean) {
-					q = playerTurn;
+					playerSaveState = playerTurn;
 					continueBoolean = !continueBoolean;
 				}
 				System.out.print("\n");
-				System.out.println("Player" + (q + 1) + ", Make a move, Enter position: ");
+				System.out.println("Player" + (playerSaveState + 1) + ", Make a move, Enter position: ");
 				System.out.print("or press 0 if you want to exit: ");
 
 				char move = sc.next().charAt(0);
@@ -90,7 +94,7 @@ public class TICTACWithResumeFile {
 					exit = true;
 
 					// save the state
-					putInFile(position, symbol, count, q);
+					putInFile(position, symbol, count, playerSaveState);
 				}
 				if (!exit) {
 					check = false;
@@ -102,14 +106,14 @@ public class TICTACWithResumeFile {
 
 						if (check == false) {
 
-							System.out.print("Player" + (q + 1) + ", Invalid input, re-enter position: ");
+							System.out.print("Player" + (playerSaveState + 1) + ", Invalid input, re-enter position: ");
 							move = sc.next().charAt(0);
 						}
 					}
 
-					position[index1][index2] = symbol[q];
+					position[index1][index2] = symbol[playerSaveState];
 					shownBox(position);
-					if (q == 0) {
+					if (playerSaveState == 0) {
 						putInFile(position, symbol, count, 1);
 					} else {
 						putInFile(position, symbol, count, 0);
@@ -126,7 +130,7 @@ public class TICTACWithResumeFile {
 							|| position[0][2] == position[1][1] && position[1][1] == position[2][0]) {
 
 						System.out.print("\n");
-						System.out.println("Player " + symbol[q] + " Win");
+						System.out.println("Player " + symbol[playerSaveState] + " Win");
 						win = true;
 						// delete File
 						try {
@@ -142,7 +146,7 @@ public class TICTACWithResumeFile {
 
 					// Because 9 times playing not 10 times
 					if (count == 4) {
-						q++;
+						playerSaveState++;
 						System.out.print("\n");
 						System.out.println("It is draw!!");
 						// delete File
@@ -238,7 +242,7 @@ public class TICTACWithResumeFile {
 	 * Method to save the state of the game if it is not complete it
 	 */
 
-	static void putInFile(char[][] state, char[] symbol, int count, int q) {
+	static void putInFile(char[][] state, char[] symbol, int count, int playerSaveState) {
 		File myFile = new File("prograss.txt");
 		try {
 			FileWriter writer = new FileWriter(myFile);
@@ -252,7 +256,7 @@ public class TICTACWithResumeFile {
 			writer.write("\n");
 			writer.write(String.valueOf(count));
 			writer.write("\n");
-			writer.write(String.valueOf(q));
+			writer.write(String.valueOf(playerSaveState));
 
 			writer.close();
 		} catch (IOException e) {
@@ -263,4 +267,3 @@ public class TICTACWithResumeFile {
 	}
 
 }
-
